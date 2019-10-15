@@ -17,6 +17,11 @@ steps:
   inputs:
     runtime: 'core'
 
+- task: CmdLine@2
+  inputs:
+    script: 'gitversion /output json /showvariable SemVer'
+    workingDirectory: '$(Build.Repository.LocalPath)'
+
 - task: DotNetCoreInstaller@0
   displayName: 'Use .NET Core sdk 2.2.104' 
   inputs: 
