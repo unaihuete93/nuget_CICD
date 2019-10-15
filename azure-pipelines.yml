@@ -3,7 +3,7 @@ name: $(GITVERSION_FullSemVer)
 
 trigger:
 - master
-- features/*
+- feature/*
 
 pool:
   vmImage: 'windows-latest'
