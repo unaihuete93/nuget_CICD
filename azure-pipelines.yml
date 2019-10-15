@@ -10,7 +10,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  projects: 'nugetcicd/nugetexample.csproj'
+  projects: 'nugetexample/nugetexample.csproj'
 
 steps:
 - task: GitVersion@5
