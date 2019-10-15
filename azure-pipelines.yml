@@ -10,7 +10,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  projects: 'nugetexample/nugetexample.csproj'
+  projects: 'Unai/Unai.csproj'
 
 steps:
 
