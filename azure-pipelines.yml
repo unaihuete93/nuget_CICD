@@ -13,13 +13,16 @@ variables:
   projects: 'nugetexample/nugetexample.csproj'
 
 steps:
-- task: GitVersion@5
-  inputs:
-    runtime: 'core'
+
 
 - task: CmdLine@2
   inputs:
     script: 'gitversion /output json /showvariable SemVer'
+    workingDirectory: '$(Build.Repository.LocalPath)'
+
+- task: CmdLine@2
+  inputs:
+    script: 'gitversion /output buildserver /showvariable SemVer'
     workingDirectory: '$(Build.Repository.LocalPath)'
 
 - task: DotNetCoreInstaller@0
