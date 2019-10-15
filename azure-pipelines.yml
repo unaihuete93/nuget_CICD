@@ -1,0 +1,65 @@
+
+name: $(GITVERSION_FullSemVer)
+
+trigger:
+- master
+- feature/*
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  projects: 'Unai/Unai.csproj'
+
+steps:
+
+
+- task: CmdLine@2
+  inputs:
+    script: 'gitversion /output json /showvariable SemVer'
+    workingDirectory: '$(Build.Repository.LocalPath)'
+
+- task: CmdLine@2
+  inputs:
+    script: 'gitversion /output buildserver /showvariable SemVer'
+    workingDirectory: '$(Build.Repository.LocalPath)'
+
+- task: DotNetCoreInstaller@0
+  displayName: 'Use .NET Core sdk 2.2.104' 
+  inputs: 
+    version: 2.2.104
+ 
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+    projects: '$(projects)' 
+    vstsFeed: 'ff478692-09f4-406d-8d3e-4566cb81b0db'
+    includeNuGetOrg: false
+    versioningScheme: byBuildNumber
+
+- task: DotNetCoreCLI@2 
+  displayName: 'dotnet build' 
+  inputs: 
+    projects: '$(projects)' 
+    arguments: '--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)' 
+    versioningScheme: byBuildNumber
+
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet pack' 
+  inputs: 
+    command: pack
+    packagesToPack: '$(projects)' 
+    nobuild: true 
+    versioningScheme: byEnvVar 
+    versionEnvVar: GitVersion.NuGetVersion
+
+- task: DotNetCoreCLI@2 
+  displayName: 'dotnet nuget push' 
+  inputs: 
+    command: push 
+    publishVstsFeed: 'ff478692-09f4-406d-8d3e-4566cb81b0db' 
+    versioningScheme: byBuildNumber
