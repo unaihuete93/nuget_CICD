@@ -3,19 +3,27 @@ name: $(GITVERSION_FullSemVer)
 
 trigger:
 - master
-- features/*
+- feature/*
 
 pool:
   vmImage: 'windows-latest'
 
 variables:
   buildConfiguration: 'Release'
-  projects: 'nugetcicd/nugetcicd.csproj'
+  projects: 'nugetexample/nugetexample.csproj'
 
 steps:
-- task: GitVersion@5
+
+
+- task: CmdLine@2
   inputs:
-    runtime: 'core'
+    script: 'gitversion /output json /showvariable SemVer'
+    workingDirectory: '$(Build.Repository.LocalPath)'
+
+- task: CmdLine@2
+  inputs:
+    script: 'gitversion /output buildserver /showvariable SemVer'
+    workingDirectory: '$(Build.Repository.LocalPath)'
 
 - task: DotNetCoreInstaller@0
   displayName: 'Use .NET Core sdk 2.2.104' 
