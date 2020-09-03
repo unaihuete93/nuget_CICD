@@ -2,7 +2,7 @@ mode: Mainline
 next-version: 1.0.0
 branches:
   master:
-    tag: 'master'
+    tag: ''
   feature:
     tag: alpha
 ignore:
