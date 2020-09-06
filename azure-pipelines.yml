@@ -11,25 +11,17 @@ pool:
 variables:
   buildConfiguration: 'Release'
   projects: 'Unai/Unai.csproj'
+  GitVersion.SemVer: ''
 
 steps:
 
 
-- task: CmdLine@2
+- task: GitVersion@5
   inputs:
-    script: 'gitversion /output json /showvariable SemVer'
-    workingDirectory: '$(Build.Repository.LocalPath)'
+    runtime: 'core'
+    configFilePath: 'GitVersion.yml'
+    updateAssemblyInfo: true
 
-- task: CmdLine@2
-  inputs:
-    script: 'gitversion /output buildserver /showvariable SemVer'
-    workingDirectory: '$(Build.Repository.LocalPath)'
-
-- task: DotNetCoreInstaller@0
-  displayName: 'Use .NET Core sdk 2.2.104' 
-  inputs: 
-    version: 2.2.104
- 
 
 - task: DotNetCoreCLI@2
   inputs:
@@ -44,7 +36,7 @@ steps:
   displayName: 'dotnet build' 
   inputs: 
     projects: '$(projects)' 
-    arguments: '--configuration $(BuildConfiguration) /p:Version=$(GitVersion.NuGetVersion)' 
+    arguments: '--configuration $(BuildConfiguration) /p:Version=$(GitVersion.SemVer)' 
     versioningScheme: byBuildNumber
 
 
@@ -55,7 +47,7 @@ steps:
     packagesToPack: '$(projects)' 
     nobuild: true 
     versioningScheme: byEnvVar 
-    versionEnvVar: GitVersion.NuGetVersion
+    versionEnvVar: GitVersion.SemVer
 
 - task: DotNetCoreCLI@2 
   displayName: 'dotnet nuget push' 
