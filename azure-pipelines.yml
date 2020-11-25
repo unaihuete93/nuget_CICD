@@ -10,7 +10,7 @@ trigger:
     include:
       - '*'
     exclude:
-     - '*.yml'
+     - 'azure-pipelines.yml'
 
 
 
