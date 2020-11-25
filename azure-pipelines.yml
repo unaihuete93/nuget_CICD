@@ -2,8 +2,18 @@
 name: $(GITVERSION_FullSemVer)
 
 trigger:
-- master
-- feature/*
+  branches:
+    include:
+      - master
+      - feature/*
+  paths:
+    include:
+      - '*'
+    exclude:
+     - '*.yml'
+
+
+
 
 pool:
   vmImage: 'windows-latest'
