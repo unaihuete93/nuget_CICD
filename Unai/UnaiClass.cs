@@ -7,6 +7,6 @@ namespace Unai
 {
     public class UnaiClass
     {
-        int a = 0;
+        int a = 1;
     }
 }
