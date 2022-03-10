@@ -25,7 +25,10 @@ variables:
 
 steps:
 
-
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: 'choco install dotnetcore-2.1-sdk'
 - task: GitVersion@5
   inputs:
     runtime: 'core'
