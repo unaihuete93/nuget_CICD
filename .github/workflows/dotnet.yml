@@ -1,0 +1,34 @@
+name: .NET
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: GitVersion
+      id: gitversion
+      uses: nmcc/actions/gitversion@v1
+      with:
+        path-to-gitversion: packages/GitVersion.CommandLine/tools/GitVersion.exe
+    - name: echo measured VERSION
+      run: echo ${{ steps.gitversion.outputs.SemVer }}
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 2.1.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer }}
+    - name: Pack
+      run: dotnet pack --no-build -p:PackageVersion=${{ steps.gitversion.outputs.SemVer }}
+    - name: Push
+      run: dotnet nuget push --source "github" --api-key ${{ secrets.PAT_GH_PACKAGES }} "**/*.nupkg"
