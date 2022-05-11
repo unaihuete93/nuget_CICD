@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RepositoryUrl>https://github.com/unaihuete-org/nuget_CICD</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
