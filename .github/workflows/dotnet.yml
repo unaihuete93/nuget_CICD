@@ -38,4 +38,4 @@ jobs:
     - name: Pack
       run: dotnet pack --no-build --configuration Release -p:PackageVersion=${{ steps.gitversion.outputs.SemVer }}
     - name: Push
-      run: dotnet nuget push --source "github" --api-key ${{ secrets.PAT_GH_PACKAGES }} "**/*.nupkg"
+      run: dotnet nuget push --source "https://nuget.pkg.github.com/unaihuete-org/index.json" --api-key ${{ secrets.PAT_GH_PACKAGES }} "**/*.nupkg"
