@@ -1,6 +1,6 @@
 ﻿
 
-//comment 
+//comment  
 using System;
 
 namespace Unai
