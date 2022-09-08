@@ -38,7 +38,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer }}
+      run: dotnet build --source ./src/EShopWeb.Shared --no-restore --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer }}
     - name: Pack
       run: dotnet pack --no-build --configuration Release -p:PackageVersion=${{ steps.gitversion.outputs.SemVer }}
     - name: Push
