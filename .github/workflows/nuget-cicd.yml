@@ -36,7 +36,7 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore --source ./src/EShopWeb.Shared/EShopWeb.Shared.csproj
+      run: dotnet restore --source ${{GITHUB_WORKSPACE}}/src/EShopWeb.Shared/EShopWeb.Shared.csproj
     - name: Build
       run: dotnet build --source ./src/EShopWeb.Shared/EShopWeb.Shared.csproj --no-restore --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer }}
     - name: Pack
