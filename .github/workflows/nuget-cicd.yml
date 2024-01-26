@@ -1,6 +1,7 @@
 name: .NET CICD
 
 on:
+  workflow_dispatch:
   push:
     branches: 
     - master 
