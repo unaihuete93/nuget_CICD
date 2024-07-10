@@ -9,6 +9,10 @@ on:
   pull_request:
     branches:
     - master
+    
+permissions:
+  packages: write
+  contents: read
 
 jobs:
   build:
@@ -42,5 +46,5 @@ jobs:
       run: dotnet build  --no-restore --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer }}
     - name: Pack
       run: dotnet pack  --no-build --configuration Release -p:PackageVersion=${{ steps.gitversion.outputs.SemVer }}
-    - name: Push
-      run: dotnet nuget push --source "https://nuget.pkg.github.com/unaihuete-org/index.json" --api-key ${{ secrets.PAT_GH_PACKAGES }} "**/*.nupkg"
+    - name: Publish to GitHub Packages
+      run: dotnet nuget push **/*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/unaihuete93/index.json
